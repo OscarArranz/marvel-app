@@ -23,6 +23,7 @@ const ProgressBar = () => {
   const navigationState = useSyncExternalStore(
     navigationStore.subscribe,
     navigationStore.getSnapshot,
+    navigationStore.getServerSnapshot,
   );
 
   useEffect(() => {
