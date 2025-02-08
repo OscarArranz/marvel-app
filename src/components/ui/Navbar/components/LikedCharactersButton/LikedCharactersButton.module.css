@@ -1,0 +1,23 @@
+/* Base styles */
+.likedCharactersButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  gap: 8px;
+}
+
+.likedCharactersButton span {
+  color: var(--white);
+  font-size: 16px;
+}
+
+/* Tablet styles */
+@media screen and (min-width: 394px) {
+  /* Add tablet-specific styles here */
+}
+
+/* Desktop styles */
+@media screen and (min-width: 835px) {
+  /* Add desktop-specific styles here */
+}
