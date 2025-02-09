@@ -1,0 +1,87 @@
+/* Base styles */
+.characterImageContainer {
+  position: relative;
+  height: 185px; /* 190px - 5.38px (the border-top of the characterInfoContainer) */
+}
+
+.characterImage {
+  object-fit: cover;
+}
+
+.characterInfoContainer {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--black);
+  padding: 16px 16px 24px 16px;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 12.86px),
+    calc(100% - 12.86px) 100%,
+    0 100%
+  );
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-top: 5.38px solid var(--marvel-red);
+}
+
+.characterInfoContainer::before {
+  content: '';
+  position: absolute;
+  top: -5.38px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--marvel-red);
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.characterInfoContainer p {
+  display: block;
+}
+
+.characterCard:hover .characterInfoContainer::before {
+  transform: translateY(0);
+}
+
+.likeIconContainer {
+  height: 10.84px;
+  width: 12px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.characterCard:hover .likedIcon path {
+  fill: var(--white);
+}
+
+.likedIcon path {
+  fill: var(--marvel-red);
+  transition: fill 0.3s ease;
+}
+
+.characterName {
+  font-size: 14px;
+  line-height: 16.41px;
+  color: var(--white);
+}
+
+/* Tablet styles */
+@media screen and (min-width: 394px) {
+  /** Add tablet-specific styles here */
+}
+
+/* Desktop styles */
+@media screen and (min-width: 835px) {
+  /* Add desktop-specific styles here */
+}

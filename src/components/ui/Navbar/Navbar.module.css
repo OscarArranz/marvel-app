@@ -8,8 +8,7 @@
 }
 
 .navbarLogo {
-  width: 130px;
-  height: 52px;
+  vertical-align: bottom; /* Align the logo inside the anchor element */
 }
 
 /* Tablet styles */
