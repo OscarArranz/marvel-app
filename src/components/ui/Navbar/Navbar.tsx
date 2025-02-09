@@ -25,6 +25,7 @@ const Navbar = () => {
             priority
             placeholder="empty"
             unoptimized
+            className={styles.navbarLogo}
           />
         </Link>
         <LikedCharactersButton />
