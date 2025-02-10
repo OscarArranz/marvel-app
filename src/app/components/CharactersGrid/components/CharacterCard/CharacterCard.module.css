@@ -91,11 +91,11 @@
 }
 
 /* Tablet styles */
-@media screen and (min-width: 394px) {
+@media screen and (min-width: 576px) {
   /** Add tablet-specific styles here */
 }
 
 /* Desktop styles */
-@media screen and (min-width: 835px) {
+@media screen and (min-width: 1200px) {
   /* Add desktop-specific styles here */
 }

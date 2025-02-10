@@ -11,14 +11,14 @@
 } */
 
 /* Tablet styles */
-@media screen and (min-width: 394px) {
+@media screen and (min-width: 576px) {
   /* .comicsList li:last-child {
     padding-right: 48px;
   } */
 }
 
 /* Desktop styles */
-@media screen and (min-width: 835px) {
+@media screen and (min-width: 1200px) {
   /* .comicsList li:last-child {
     padding-right: 276px;
   } */

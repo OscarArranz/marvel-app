@@ -20,7 +20,7 @@
 }
 
 /* Tablet styles */
-@media screen and (min-width: 394px) {
+@media screen and (min-width: 576px) {
   /** Add tablet-specific styles here */
 	.content {
 		padding-inline: 48px;
@@ -28,7 +28,7 @@
 }
 
 /* Desktop styles */
-@media screen and (min-width: 835px) {
+@media screen and (min-width: 1200px) {
 	.content {
 		padding-inline: 276px;
 	}

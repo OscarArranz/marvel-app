@@ -68,7 +68,7 @@
 }
 
 /* Tablet styles */
-@media screen and (min-width: 394px) {
+@media screen and (min-width: 576px) {
   .characterInfoContainer {
     flex-direction: row;
   }
@@ -85,7 +85,7 @@
 }
 
 /* Desktop styles */
-@media screen and (min-width: 835px) {
+@media screen and (min-width: 1200px) {
   .characterInfoContainer {
     padding-inline: 276px;
   }

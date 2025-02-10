@@ -12,13 +12,13 @@
 }
 
 /* Tablet styles */
-@media screen and (min-width: 394px) {
+@media screen and (min-width: 576px) {
   .pageContainer {
     padding-block: 48px;
   }
 }
 
 /* Desktop styles */
-@media screen and (min-width: 835px) {
+@media screen and (min-width: 1200px) {
   /* Add desktop-specific styles here */
 }

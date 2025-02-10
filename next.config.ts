@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  // Development settings
+  experimental: {
+    turbo: {
+      minify: false,
+    },
+  },
 };
 
 export default nextConfig;
