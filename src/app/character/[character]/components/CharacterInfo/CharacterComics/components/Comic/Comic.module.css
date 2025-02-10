@@ -1,0 +1,40 @@
+/* Base styles */
+.comic {
+  max-width: 318px;
+  display: block;
+}
+
+.comicInsideContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comicInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.comicInfo h4 {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--black);
+}
+
+.comicInfo h5 {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--black);
+}
+
+/* Tablet styles */
+@media screen and (min-width: 576px) {
+  /** Add tablet-specific styles here */
+}
+
+/* Desktop styles */
+@media screen and (min-width: 1200px) {
+  /** Add desktop-specific styles here */
+}

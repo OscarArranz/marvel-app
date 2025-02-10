@@ -1,21 +1,13 @@
 /* Base styles */
-.pageContainer {
+.characterPageContainer {
   margin-top: -5.38px; /* Compensate for the height of the ProgressBar */
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  height: 100%;
-  width: 100%;
-  padding-block: 24px;
-  overflow-y: auto;
-  height: calc(100vh - 84px); /* Fill the height of the viewport minus the height of the Navbar */
 }
 
 /* Tablet styles */
 @media screen and (min-width: 576px) {
-  .pageContainer {
-    padding-block: 48px;
-  }
+  /** Add tablet-specific styles here */
 }
 
 /* Desktop styles */

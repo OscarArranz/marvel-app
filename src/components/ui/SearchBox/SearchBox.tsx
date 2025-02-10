@@ -1,7 +1,7 @@
 import styles from './SearchBox.module.css';
 import SearchIcon from '../../../../public/search-icon.svg';
 import Image from 'next/image';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useDebounce } from '../../../hooks';
 
 interface SearchBoxProps {
@@ -18,16 +18,21 @@ const SearchBox = ({
   onSearch,
 }: SearchBoxProps) => {
   const [searchValue, setSearchValue] = useState('');
+  const [isClient, setIsClient] = useState(false);
 
   const debouncedOnSearch = useDebounce(onSearch, DEBOUNCE_DELAY);
 
   const handleSearch = useCallback(
     (value: string) => {
-      setSearchValue(value);
-      debouncedOnSearch(value);
+      setSearchValue(value.toUpperCase());
+      debouncedOnSearch(value.toUpperCase());
     },
     [debouncedOnSearch],
   );
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <section role="search" className={styles.searchBoxContainer}>
@@ -48,7 +53,7 @@ const SearchBox = ({
           value={searchValue.toUpperCase()}
         />
       </div>
-      {resultsAmount && (
+      {isClient && resultsAmount && (
         <p
           aria-label="Search results amount"
           aria-live="polite"

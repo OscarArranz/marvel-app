@@ -6,7 +6,6 @@ interface HeartIconProps extends SVGProps<SVGSVGElement> {
 }
 
 const HeartIcon = ({
-  fill = '#EC1D24',
   height = 22,
   width = 24,
   className,

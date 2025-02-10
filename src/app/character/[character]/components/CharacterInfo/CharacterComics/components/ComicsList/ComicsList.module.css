@@ -1,0 +1,27 @@
+/* Base styles */
+
+.comicsList {
+  display: flex;
+  gap: 16px;
+  list-style: none;
+}
+
+.comicsList::after {
+    content: '';
+    display: block;
+    min-width: 0.1px;
+  }
+
+/* Tablet styles */
+@media screen and (min-width: 576px) {
+  .comicsList::after {
+    min-width: 32px;
+  }
+}
+
+/* Desktop styles */
+@media screen and (min-width: 1200px) {
+  .comicsList::after {
+    min-width: 260px;
+  }
+}

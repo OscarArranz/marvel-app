@@ -111,7 +111,7 @@ const ProgressBar = () => {
       // Cancel the ongoing animation
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [navigationState]);
+  }, [isFirstLoad, navigationState]);
 
   return (
     <div

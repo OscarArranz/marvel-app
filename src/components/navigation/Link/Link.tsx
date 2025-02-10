@@ -20,6 +20,7 @@ type LinkProps = React.ComponentProps<'a'> & {
  * @param props - The props of the link.
  * @returns A Next.js Link with a loading state.
  */
+// eslint-disable-next-line react/display-name
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   ({ href, onClick, replace, ...props }: LinkProps, ref) => {
     return (

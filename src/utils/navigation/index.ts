@@ -3,7 +3,7 @@ import { addBasePath } from 'next/dist/client/add-base-path';
 type NavigationState = 'idle' | 'loading';
 
 let state: NavigationState = 'idle';
-const listeners: Map<Symbol, () => void> = new Map();
+const listeners: Map<symbol, () => void> = new Map();
 
 /**
  * A store that manages the navigation state.
