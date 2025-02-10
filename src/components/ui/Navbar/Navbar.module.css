@@ -1,0 +1,25 @@
+/* Base styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--black);
+  padding: 16px;
+}
+
+.navbarLogo {
+  vertical-align: bottom; /* Align the logo inside the anchor element */
+}
+
+/* Tablet styles */
+@media screen and (min-width: 576px) {
+  .navbar {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+}
+
+/* Desktop styles */
+@media screen and (min-width: 1200px) {
+  /* Add desktop-specific styles here */
+}

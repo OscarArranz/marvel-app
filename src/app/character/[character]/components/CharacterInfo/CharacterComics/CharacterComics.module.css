@@ -1,0 +1,35 @@
+/* Base styles */
+.characterComicsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 48px 0;
+  overflow-x: visible;
+}
+
+.characterComicsContainer h2 {
+  margin-inline: 16px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--black)
+}
+
+/* Tablet styles */
+@media screen and (min-width: 576px) {
+  /** Add tablet-specific styles here */
+
+  .characterComicsContainer h2 {
+    margin-inline: 48px;
+  }
+}
+
+/* Desktop styles */
+@media screen and (min-width: 1200px) {
+  .characterComicsContainer h2 {
+    margin-inline: 276px;
+  }
+
+  .characterComicsContainer h2 {
+    font-size: 32px;
+  }
+}

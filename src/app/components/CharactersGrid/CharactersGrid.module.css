@@ -1,0 +1,35 @@
+/* Base styles */
+.charactersGridContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding-inline: 16px;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.errorContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: var(--marvel-red);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Tablet styles */
+@media screen and (min-width: 576px) {
+  .charactersGridContainer {
+    grid-template-columns: repeat(4, 1fr);
+    padding-inline: 48px;
+  }
+}
+
+/* Desktop styles */
+@media screen and (min-width: 1200px) {
+  .charactersGridContainer {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}

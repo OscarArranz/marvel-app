@@ -1,0 +1,101 @@
+/* Base styles */
+.characterImageContainer {
+  position: relative;
+  height: 185px; /* 190px - 5.38px (the border-top of the characterInfoContainer) */
+}
+
+.characterImage {
+  object-fit: cover;
+}
+
+.characterCard {
+  width: 100%;
+  min-width: 0; /* Allows the card to shrink below its content size */
+}
+
+.characterInfoContainer {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--black);
+  padding: 16px 16px 24px 16px;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 12.86px),
+    calc(100% - 12.86px) 100%,
+    0 100%
+  );
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-top: 5.38px solid var(--marvel-red);
+  height: 54px;
+  width: 100%;
+  min-width: 0; /* Allows container to shrink below its content size */
+}
+
+.characterInfoContainer::before {
+  content: '';
+  position: absolute;
+  top: -5.38px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--marvel-red);
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.characterInfoContainer h3 {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 20px); /* Subtract space for the like button and gap */
+}
+
+.characterCard:hover .characterInfoContainer::before {
+  transform: translateY(0);
+}
+
+.characterCard button {
+  height: 10.84px;
+  width: 12px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.characterCard:hover .likedIcon path {
+  fill: var(--white);
+}
+
+.likedIcon path {
+  fill: var(--marvel-red);
+  transition: fill 0.3s ease;
+}
+
+.characterName {
+  font-size: 14px;
+  line-height: 16.41px;
+  color: var(--white);
+}
+
+/* Tablet styles */
+@media screen and (min-width: 576px) {
+  /** Add tablet-specific styles here */
+}
+
+/* Desktop styles */
+@media screen and (min-width: 1200px) {
+  /* Add desktop-specific styles here */
+}
