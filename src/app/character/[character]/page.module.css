@@ -1,0 +1,16 @@
+/* Base styles */
+.characterPageContainer {
+  margin-top: -5.38px; /* Compensate for the height of the ProgressBar */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tablet styles */
+@media screen and (min-width: 394px) {
+  /** Add tablet-specific styles here */
+}
+
+/* Desktop styles */
+@media screen and (min-width: 835px) {
+  /* Add desktop-specific styles here */
+}

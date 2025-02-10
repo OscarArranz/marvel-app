@@ -1,0 +1,63 @@
+/* Base styles */
+
+.container {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		overflow: hidden;
+		position: relative;
+	}
+
+.content {
+	-ms-overflow-style: none;
+	overflow: auto;
+	scrollbar-width: none;
+	padding-inline: 16px;
+}
+
+.content::-webkit-scrollbar {
+	display: none;
+}
+
+/* Tablet styles */
+@media screen and (min-width: 394px) {
+  /** Add tablet-specific styles here */
+	.content {
+		padding-inline: 48px;
+	}
+}
+
+/* Desktop styles */
+@media screen and (min-width: 835px) {
+	.content {
+		padding-inline: 276px;
+	}
+
+	.scrollbar {
+		display: block;
+		padding-inline: 276px;
+		margin-top: 24px;
+	}
+
+	.trackAndThumb {
+		display: block;
+		width: 100%;
+		position: relative;
+		height: 4px;
+	}
+
+	.track {
+		bottom: 0;
+		position: absolute;
+		top: 0;
+		background-color: var(--gray);
+		height: 4px;
+		width: 100%;
+	}
+
+	.thumb {
+		position: absolute;
+		background-color: var(--marvel-red);
+		height: 4px;
+	}
+}

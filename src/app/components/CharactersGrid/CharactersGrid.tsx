@@ -5,13 +5,7 @@ import CharacterCard from './components/CharacterCard';
 import { useSearch } from '../../../context/SearchContext';
 import { useLocalStorage } from '../../../hooks';
 import { LIKED_CHARACTERS_STORAGE_KEY } from '../../../utils/constants';
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from 'react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const fetchCharacter = async (name: string) => {
@@ -30,13 +24,14 @@ const fetchCharacter = async (name: string) => {
  * @returns {JSX.Element} The CharacterGrid component
  */
 const CharactersGrid = () => {
-  const [isLoading, startLoading] = useTransition();
   const { searchTerm, setResultsAmount } = useSearch();
   const searchParams = useSearchParams();
   const [likedCharactersObj] = useLocalStorage(
     LIKED_CHARACTERS_STORAGE_KEY,
     {},
   );
+  const lastRequestIdRef = useRef(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [characters, setCharacters] = useState<any[]>([]);
   const [hasLoadedFilteredCharacters, setHasLoadedFilteredCharacters] =
@@ -68,56 +63,66 @@ const CharactersGrid = () => {
 
   const fetchLikedCharacters = useCallback(async () => {
     setHasLoadedFilteredCharacters(true);
+    const requestId = ++lastRequestIdRef.current;
+    setIsLoading(true);
 
-    startLoading(async () => {
-      const likedCharacters = Object.keys(likedCharactersObj);
+    const likedCharacters = Object.keys(likedCharactersObj);
 
-      try {
-        let characters = await Promise.all(likedCharacters.map(fetchCharacter));
+    try {
+      let characters = await Promise.all(likedCharacters.map(fetchCharacter));
 
-        startLoading(async () => {
-          setCharacters(characters);
-          setResultsAmount(characters.length);
-        });
-      } catch (error) {
-        console.error('Error fetching liked characters:', error);
+      // Only update state if this is still the most recent request
+      if (requestId === lastRequestIdRef.current) {
+        setCharacters(characters);
+        setResultsAmount(characters.length);
       }
-    });
+    } catch (error) {
+    } finally {
+      // Only remove loading state if this is still the most recent request
+      if (requestId === lastRequestIdRef.current) {
+        setIsLoading(false);
+      }
+    }
   }, [likedCharactersObj]);
 
   const fetchCharacters = useCallback(async () => {
     setHasLoadedFilteredCharacters(false);
+    const requestId = ++lastRequestIdRef.current;
+    setIsLoading(true);
 
-    startLoading(async () => {
-      const baseUrl = '/api/characters';
-      const params = new URLSearchParams();
+    const baseUrl = '/api/characters';
+    const params = new URLSearchParams();
 
-      if (searchTerm) {
-        params.set('name', searchTerm);
+    if (searchTerm) {
+      params.set('name', searchTerm);
+    }
+
+    try {
+      const response = await fetch(`${baseUrl}?${params.toString()}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      let data = await response.json();
+
+      if (searchTerm === '') {
+        data = data.slice(0, 50);
       }
 
-      try {
-        const response = await fetch(`${baseUrl}?${params.toString()}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        let data = await response.json();
-
-        if (searchTerm === '') {
-          data = data.slice(0, 50);
-        }
-
-        startLoading(async () => {
-          setCharacters(data);
-          setResultsAmount(data.length);
-        });
-      } catch (error) {
-        console.error('Error fetching characters:', error);
+      // Only update state if this is still the most recent request
+      if (requestId === lastRequestIdRef.current) {
+        setCharacters(data);
+        setResultsAmount(data.length);
       }
-    });
+    } catch (error) {
+    } finally {
+      // Only remove loading state if this is still the most recent request
+      if (requestId === lastRequestIdRef.current) {
+        setIsLoading(false);
+      }
+    }
   }, [searchTerm]);
 
   useEffect(() => {

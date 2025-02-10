@@ -1,0 +1,31 @@
+/* Base styles */
+
+.comicsList {
+  display: flex;
+  gap: 16px;
+  list-style: none;
+}
+
+/* .comicsList li:last-child {
+  padding-right: 16px;
+} */
+
+/* Tablet styles */
+@media screen and (min-width: 394px) {
+  /* .comicsList li:last-child {
+    padding-right: 48px;
+  } */
+}
+
+/* Desktop styles */
+@media screen and (min-width: 835px) {
+  /* .comicsList li:last-child {
+    padding-right: 276px;
+  } */
+
+  .comicsList::after {
+    content: '';
+    display: block;
+    min-width: 260px;
+  }
+}

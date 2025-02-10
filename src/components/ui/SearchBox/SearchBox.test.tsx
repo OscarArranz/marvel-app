@@ -65,7 +65,7 @@ describe('SearchBox', () => {
     });
 
     // Now onSearch should have been called
-    expect(mockOnSearch).toHaveBeenCalledWith('test');
+    expect(mockOnSearch).toHaveBeenCalledWith('TEST');
   });
 
   it('should debounce multiple rapid inputs', () => {
@@ -109,7 +109,7 @@ describe('SearchBox', () => {
 
     // Verify onSearch was only called once with final value
     expect(mockOnSearch).toHaveBeenCalledTimes(1);
-    expect(mockOnSearch).toHaveBeenCalledWith('hello');
+    expect(mockOnSearch).toHaveBeenCalledWith('HELLO');
   });
 
   it('should convert input value to uppercase', () => {

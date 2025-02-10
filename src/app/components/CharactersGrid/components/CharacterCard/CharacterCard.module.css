@@ -8,6 +8,11 @@
   object-fit: cover;
 }
 
+.characterCard {
+  width: 100%;
+  min-width: 0; /* Allows the card to shrink below its content size */
+}
+
 .characterInfoContainer {
   display: flex;
   gap: 8px;
@@ -26,6 +31,9 @@
   z-index: 1;
   overflow: hidden;
   border-top: 5.38px solid var(--marvel-red);
+  height: 54px;
+  width: 100%;
+  min-width: 0; /* Allows container to shrink below its content size */
 }
 
 .characterInfoContainer::before {
@@ -41,15 +49,21 @@
   z-index: -1;
 }
 
-.characterInfoContainer p {
+.characterInfoContainer h3 {
   display: block;
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 20px); /* Subtract space for the like button and gap */
 }
 
 .characterCard:hover .characterInfoContainer::before {
   transform: translateY(0);
 }
 
-.likeIconContainer {
+.characterCard button {
   height: 10.84px;
   width: 12px;
   flex: 0 0 auto;
