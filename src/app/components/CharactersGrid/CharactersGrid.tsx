@@ -85,7 +85,8 @@ const CharactersGrid = () => {
         setIsLoading(false);
       }
     }
-  }, [likedCharactersObj, setResultsAmount]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setResultsAmount]);
 
   const fetchCharacters = useCallback(async () => {
     setHasLoadedFilteredCharacters(false);
