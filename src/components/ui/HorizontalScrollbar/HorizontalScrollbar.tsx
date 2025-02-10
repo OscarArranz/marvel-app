@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './HorizontalScrollbar.module.css';
 
+/**
+ * A component that implements a horizontal scrollbar.
+ *
+ * @param children - The children to render inside the scrollbar.
+ * @returns A React component that implements a horizontal scrollbar.
+ */
 const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollTrackRef = useRef<HTMLDivElement>(null);
@@ -42,6 +48,7 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
     newLeft = Math.min(newLeft, trackWidth - thumbWidth);
 
     const thumb = scrollThumbRef.current;
+
     requestAnimationFrame(() => {
       thumb.style.left = `${newLeft}px`;
     });
@@ -52,8 +59,10 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
       e.preventDefault();
       e.stopPropagation();
       setScrollStartPosition(e.clientX);
+
       if (contentRef.current)
         setInitialContentScrollLeft(contentRef.current.scrollLeft);
+
       setIsDragging(true);
     },
     [],
@@ -63,6 +72,7 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
     (e: MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
+
       if (isDragging) {
         setIsDragging(false);
       }
@@ -75,6 +85,7 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
       if (contentRef.current) {
         e.preventDefault();
         e.stopPropagation();
+
         if (isDragging) {
           const {
             scrollWidth: contentScrollWidth,
@@ -100,11 +111,13 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (contentRef.current) {
       const content = contentRef.current;
+
       observer.current = new ResizeObserver(() => {
         handleResize();
       });
       observer.current.observe(content);
       content.addEventListener('scroll', handleThumbPosition);
+
       return () => {
         observer.current?.unobserve(content);
         content.removeEventListener('scroll', handleThumbPosition);
@@ -116,6 +129,7 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     document.addEventListener('mousemove', handleThumbMousemove);
     document.addEventListener('mouseup', handleThumbMouseup);
+
     return () => {
       document.removeEventListener('mousemove', handleThumbMousemove);
       document.removeEventListener('mouseup', handleThumbMouseup);
@@ -126,8 +140,10 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
     (e: React.MouseEvent<HTMLDivElement>) => {
       e.preventDefault();
       e.stopPropagation();
+
       const { current: track } = scrollTrackRef;
       const { current: content } = contentRef;
+
       if (track && content) {
         const { clientX } = e;
         const target = e.target as HTMLDivElement;
@@ -137,6 +153,7 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
         const clickRatio =
           (clientX - trackLeft + thumbOffset) / track.clientWidth;
         const scrollAmount = Math.floor(clickRatio * content.scrollWidth);
+
         content.scrollTo({
           left: scrollAmount,
           behavior: 'smooth',
