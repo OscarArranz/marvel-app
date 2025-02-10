@@ -36,6 +36,7 @@ const CharactersGrid = () => {
   const [characters, setCharacters] = useState<any[]>([]);
   const [hasLoadedFilteredCharacters, setHasLoadedFilteredCharacters] =
     useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const characterCards = useMemo(
     () =>
@@ -69,21 +70,22 @@ const CharactersGrid = () => {
     const likedCharacters = Object.keys(likedCharactersObj);
 
     try {
-      let characters = await Promise.all(likedCharacters.map(fetchCharacter));
+      const characters = await Promise.all(likedCharacters.map(fetchCharacter));
 
       // Only update state if this is still the most recent request
       if (requestId === lastRequestIdRef.current) {
         setCharacters(characters);
         setResultsAmount(characters.length);
       }
-    } catch (error) {
+    } catch (error: any) {
+      setError(error.message);
     } finally {
       // Only remove loading state if this is still the most recent request
       if (requestId === lastRequestIdRef.current) {
         setIsLoading(false);
       }
     }
-  }, [likedCharactersObj]);
+  }, [likedCharactersObj, setResultsAmount]);
 
   const fetchCharacters = useCallback(async () => {
     setHasLoadedFilteredCharacters(false);
@@ -116,14 +118,15 @@ const CharactersGrid = () => {
         setCharacters(data);
         setResultsAmount(data.length);
       }
-    } catch (error) {
+    } catch (error: any) {
+      setError(error.message);
     } finally {
       // Only remove loading state if this is still the most recent request
       if (requestId === lastRequestIdRef.current) {
         setIsLoading(false);
       }
     }
-  }, [searchTerm]);
+  }, [searchTerm, setResultsAmount]);
 
   useEffect(() => {
     if (searchParams.get('filter') === 'liked' && hasLoadedFilteredCharacters)
@@ -131,7 +134,22 @@ const CharactersGrid = () => {
 
     if (searchParams.get('filter') === 'liked') fetchLikedCharacters();
     else fetchCharacters();
-  }, [searchTerm, searchParams.get('filter')]);
+  }, [
+    fetchCharacters,
+    fetchLikedCharacters,
+    hasLoadedFilteredCharacters,
+    searchParams,
+    searchTerm,
+    setResultsAmount,
+  ]);
+
+  if (error) {
+    return (
+      <div className={styles.errorContainer}>
+        {`ERROR: ${error.toUpperCase()}`}
+      </div>
+    );
+  }
 
   return (
     <section

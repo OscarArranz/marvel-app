@@ -10,6 +10,10 @@ export const GET = async (
     const character = await getCharacter(name);
     return NextResponse.json(character);
   } catch (error) {
+    console.error(
+      `Error fetching character: ${name}, error: ${JSON.stringify(error)}`,
+    );
+
     return NextResponse.json({ error: 'Character not found' }, { status: 404 });
   }
 };

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './HorizontalScrollbar.module.css';
 
 const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
@@ -13,7 +13,7 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
   const [initialContentScrollLeft, setInitialContentScrollLeft] =
     useState<number>(0);
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
     if (scrollTrackRef.current && contentRef.current) {
       const { clientWidth: trackSize } = scrollTrackRef.current;
       const { clientWidth: contentVisible, scrollWidth: contentTotalWidth } =
@@ -23,9 +23,9 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
         Math.max((contentVisible / contentTotalWidth) * trackSize, 20),
       );
     }
-  };
+  }, []);
 
-  const handleThumbPosition = () => {
+  const handleThumbPosition = useCallback(() => {
     if (
       !contentRef.current ||
       !scrollTrackRef.current ||
@@ -45,7 +45,57 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
     requestAnimationFrame(() => {
       thumb.style.left = `${newLeft}px`;
     });
-  };
+  }, [thumbWidth]);
+
+  const handleThumbMousedown = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setScrollStartPosition(e.clientX);
+      if (contentRef.current)
+        setInitialContentScrollLeft(contentRef.current.scrollLeft);
+      setIsDragging(true);
+    },
+    [],
+  );
+
+  const handleThumbMouseup = useCallback(
+    (e: MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (isDragging) {
+        setIsDragging(false);
+      }
+    },
+    [isDragging],
+  );
+
+  const handleThumbMousemove = useCallback(
+    (e: MouseEvent) => {
+      if (contentRef.current) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (isDragging) {
+          const {
+            scrollWidth: contentScrollWidth,
+            clientWidth: contentClientWidth,
+          } = contentRef.current;
+
+          const deltaX =
+            (e.clientX - scrollStartPosition) *
+            (contentClientWidth / thumbWidth);
+
+          const newScrollLeft = Math.min(
+            initialContentScrollLeft + deltaX,
+            contentScrollWidth - contentClientWidth,
+          );
+
+          contentRef.current.scrollLeft = newScrollLeft;
+        }
+      }
+    },
+    [isDragging, scrollStartPosition, thumbWidth, initialContentScrollLeft],
+  );
 
   useEffect(() => {
     if (contentRef.current) {
@@ -60,47 +110,8 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
         content.removeEventListener('scroll', handleThumbPosition);
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const handleThumbMousedown = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setScrollStartPosition(e.clientX);
-    if (contentRef.current)
-      setInitialContentScrollLeft(contentRef.current.scrollLeft);
-    setIsDragging(true);
-  };
-
-  const handleThumbMouseup = (e: MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (isDragging) {
-      setIsDragging(false);
-    }
-  };
-
-  const handleThumbMousemove = (e: MouseEvent) => {
-    if (contentRef.current) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (isDragging) {
-        const {
-          scrollWidth: contentScrollWidth,
-          clientWidth: contentClientWidth,
-        } = contentRef.current;
-
-        const deltaX =
-          (e.clientX - scrollStartPosition) * (contentClientWidth / thumbWidth);
-
-        const newScrollLeft = Math.min(
-          initialContentScrollLeft + deltaX,
-          contentScrollWidth - contentClientWidth,
-        );
-
-        contentRef.current.scrollLeft = newScrollLeft;
-      }
-    }
-  };
 
   useEffect(() => {
     document.addEventListener('mousemove', handleThumbMousemove);
@@ -111,26 +122,29 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
     };
   }, [handleThumbMousemove, handleThumbMouseup]);
 
-  function handleTrackClick(e: React.MouseEvent<HTMLDivElement>) {
-    e.preventDefault();
-    e.stopPropagation();
-    const { current: track } = scrollTrackRef;
-    const { current: content } = contentRef;
-    if (track && content) {
-      const { clientX } = e;
-      const target = e.target as HTMLDivElement;
-      const rect = target.getBoundingClientRect();
-      const trackLeft = rect.left;
-      const thumbOffset = -(thumbWidth / 2);
-      const clickRatio =
-        (clientX - trackLeft + thumbOffset) / track.clientWidth;
-      const scrollAmount = Math.floor(clickRatio * content.scrollWidth);
-      content.scrollTo({
-        left: scrollAmount,
-        behavior: 'smooth',
-      });
-    }
-  }
+  const handleTrackClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const { current: track } = scrollTrackRef;
+      const { current: content } = contentRef;
+      if (track && content) {
+        const { clientX } = e;
+        const target = e.target as HTMLDivElement;
+        const rect = target.getBoundingClientRect();
+        const trackLeft = rect.left;
+        const thumbOffset = -(thumbWidth / 2);
+        const clickRatio =
+          (clientX - trackLeft + thumbOffset) / track.clientWidth;
+        const scrollAmount = Math.floor(clickRatio * content.scrollWidth);
+        content.scrollTo({
+          left: scrollAmount,
+          behavior: 'smooth',
+        });
+      }
+    },
+    [thumbWidth],
+  );
 
   return (
     <div className={styles.container}>
@@ -145,6 +159,7 @@ const HorizontalScrollbar = ({ children }: { children: React.ReactNode }) => {
         <div
           className={styles.trackAndThumb}
           role="scrollbar"
+          aria-valuenow={thumbWidth}
           aria-controls="custom-scrollbars-content"
         >
           <div

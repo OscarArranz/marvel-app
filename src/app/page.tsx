@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { SearchProvider } from '../context/SearchContext';
 import CharactersGrid from './components/CharactersGrid';
 import CharactersSearchBox from './components/CharactersSearchBox';
@@ -7,8 +8,10 @@ const Home = () => {
   return (
     <main className={styles.pageContainer}>
       <SearchProvider>
-        <CharactersSearchBox />
-        <CharactersGrid />
+        <Suspense fallback={null}>
+          <CharactersSearchBox />
+          <CharactersGrid />
+        </Suspense>
       </SearchProvider>
     </main>
   );

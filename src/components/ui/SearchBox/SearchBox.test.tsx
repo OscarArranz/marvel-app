@@ -4,11 +4,10 @@ import SearchBox from './SearchBox';
 
 // Mock the Image component from next/image
 vi.mock('next/image', () => ({
-  default: vi
-    .fn()
-    .mockImplementation(({ src, alt, ...props }) => (
-      <img src={src} alt={alt} {...props} />
-    )),
+  default: vi.fn().mockImplementation(({ src, alt, ...props }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt={alt} {...props} />
+  )),
 }));
 
 describe('SearchBox', () => {
